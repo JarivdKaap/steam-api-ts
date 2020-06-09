@@ -1,10 +1,11 @@
 import fetch from 'node-fetch';
 import { Applist, GetAppList } from './Structs/AppList';
+import { FeaturedCategories } from './Structs/FeaturedCategories';
 
 const BASE_URL = 'https://api.steampowered.com';
 const STORE_URL = 'https://store.steampowered.com/api';
 
-export class SteamAPI {
+export default class SteamAPI {
   developerKey: string;
   baseUrl: string;
   baseStore: string;
@@ -24,7 +25,7 @@ export class SteamAPI {
     return (await this.get('/ISteamApps/GetAppList/v2').then((json) => (json as GetAppList).applist.apps)) as Applist;
   }
 
-  async getFeaturedCategories() {
-    return await this.get('/featuredcategories', this.baseStore);
+  async getFeaturedCategories(): Promise<FeaturedCategories> {
+    return (await this.get('/featuredcategories', this.baseStore)) as FeaturedCategories;
   }
 }

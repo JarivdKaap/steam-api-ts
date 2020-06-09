@@ -18,11 +18,11 @@
   "author": "Jari van der Kaap",
   "license": "ISC",
   "dependencies": {
-    "@types/node-fetch": "^2.5.7",
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {
     "@types/jest": "^25.2.3",
+    "@types/node-fetch": "^2.5.7",
     "jest": "^26.0.1",
     "prettier": "^2.0.5",
     "ts-jest": "^26.1.0",

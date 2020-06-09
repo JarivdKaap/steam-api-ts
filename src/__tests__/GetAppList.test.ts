@@ -1,4 +1,4 @@
-import { SteamAPI } from '../index';
+import SteamAPI from '../index';
 
 test('GetAppList', async () => {
   const steamApi = new SteamAPI('key');
