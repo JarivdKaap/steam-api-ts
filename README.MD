@@ -6,6 +6,19 @@
 
 Based on [xDimGG](https://github.com/xDimGG)'s [node-steamapi](https://github.com/xDimGG/node-steamapi)
 
-Still a work in progress!
+Still a work in progress! Not everything is done yet.
+
+## Install
+
+```bash
+npm i steam-api-ts
+```
+
+## Usage
 
 Instructions to follow soon.
+
+## License
+
+Copyright © 2020 [Jari van der Kaap](https://github.com/JarivdKaap).<br>
+This project is [MIT](https://github.com/JarivdKaap/steam-api-ts/blob/master/LICENSE) licensed.

@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "test": "jest --setupFiles dotenv/config",
+    "test": "jest",
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
@@ -16,7 +16,7 @@
     "postversion": "git push && git push --tags"
   },
   "author": "Jari van der Kaap",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "node-fetch": "^2.6.0"
   },
@@ -41,5 +41,13 @@
   },
   "files": [
     "lib/**/*"
+  ],
+  "keywords": [
+    "steapapi",
+    "steam",
+    "api",
+    "wrapper",
+    "typescript",
+    "ts"
   ]
 }

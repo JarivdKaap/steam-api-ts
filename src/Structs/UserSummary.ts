@@ -11,5 +11,4 @@ export default interface UserSummary {
   primaryclanid: string;
   timecreated: number;
   personastateflags: number;
-};
-
+}
