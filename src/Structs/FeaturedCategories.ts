@@ -5,7 +5,7 @@ type item = {
   url: string;
 };
 
-export type FeaturedCategories = {
+export default interface FeaturedCategories {
   status: number;
   trailerslideshow: { id: string; name: string };
   genres: { id: string; name: string };
@@ -17,4 +17,4 @@ export type FeaturedCategories = {
   '1': { id: string; name: string; items: item[] };
   '2': { id: string; name: string; items: item[] };
   '3': { id: string; name: string; items: item[] };
-};
+}
