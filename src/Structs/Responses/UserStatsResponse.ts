@@ -1,4 +1,4 @@
-import { PlayerStats } from '../PlayerStats';
+import PlayerStats from '../PlayerStats';
 
 export default interface UserStatsResponse {
   playerstats: PlayerStats;

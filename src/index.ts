@@ -1,7 +1,6 @@
 import fetch from 'node-fetch';
 import FeaturedCategories from './Structs/FeaturedCategories';
 import FeaturedGames from './Structs/FeaturedGames';
-import { UserSummaryResponse, UserSummary } from './Structs/UserSummary';
 import UserLevelResponse from './Structs/Responses/UserLevelResponse';
 import App from './Structs/App';
 import AppListResponse from './Structs/Responses/AppListResponse';
@@ -10,16 +9,22 @@ import GameAchievementsResponse from './Structs/Responses/GameAchievementReponse
 import UserGroupsResponse from './Structs/Responses/UserGroupsResponse';
 import Game from './Structs/Game';
 import UserOwnedGamesResponse from './Structs/Responses/UserOwnedGamesResponse';
-import { PlayerStats } from './Structs/PlayerStats';
+import PlayerStats from './Structs/PlayerStats';
 import UserStatsResponse from './Structs/Responses/UserStatsResponse';
+import UserSummary from './Structs/UserSummary';
+import UserSummaryResponse from './Structs/Responses/UserSummaryResponse';
+import GameDetails from './Structs/GameDetails';
+import GamePlayersResponse from './Structs/Responses/GamePlayersResponse';
+import GameSchema from './Structs/GameSchema';
+import Server from './Structs/Server';
 
 const BASE_URL = 'https://api.steampowered.com';
 const STORE_URL = 'https://store.steampowered.com/api';
 
 export default class SteamAPI {
-  developerKey: string;
-  baseUrl: string;
-  baseStore: string;
+  private developerKey: string;
+  private baseUrl: string;
+  private baseStore: string;
 
   constructor(developerKey: string, baseUrl: string = BASE_URL, baseStore: string = STORE_URL) {
     this.developerKey = developerKey;
@@ -50,6 +55,29 @@ export default class SteamAPI {
     return await this.get(`/ISteamUserStats/GetGlobalAchievementPercentagesForApp/v2?gameid=${appId}`).then(
       (json) => (json as GameAchievementsResponse).achievementpercentages.achievements,
     );
+  }
+
+  async getGameDetails(appId: number, region: string = 'us'): Promise<GameDetails> {
+    return (await this.get(`/appdetails?appids=${appId}&cc=${region}`, this.baseStore).then(
+      (json) => (json as any)[appId].data,
+    )) as GameDetails;
+  }
+
+  async getGamePlayers(appId: number): Promise<number> {
+    return await this.get(`/ISteamUserStats/GetNumberOfCurrentPlayers/v1?appid=${appId}`).then(
+      (json) => (json as GamePlayersResponse).response.player_count,
+    );
+  }
+
+  async getGameSchema(appId: number): Promise<GameSchema> {
+    return await this.get(`/ISteamUserStats/GetSchemaForGame/v2?appid=${appId}`).then((json) => (json as any).game);
+  }
+
+  async getServers(host: string): Promise<Server[]> {
+    return await this.get(`/ISteamApps/GetServersAtAddress/v1?addr=${host}`).then((json) => {
+      if ((json as any).response.success) return (json as any).response.servers;
+      return Promise.reject(new Error((json as any).response.message));
+    });
   }
 
   async getUserGroups(userId: string): Promise<string[]> {
@@ -90,7 +118,7 @@ export default class SteamAPI {
   async getUserSummary(userId: string): Promise<UserSummary> {
     return (await this.get(`/ISteamUser/GetPlayerSummaries/v2?steamids=${userId}`).then((json) => {
       const user = (json as UserSummaryResponse).response.players;
-      if (!user || user.length != 1) Promise.reject(new Error('No player found'));
+      if (!user || user.length !== 1) Promise.reject(new Error('No player found'));
       return user;
     })) as UserSummary;
   }

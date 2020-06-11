@@ -1,4 +1,4 @@
-export interface UserSummary {
+export default interface UserSummary {
   steamid: string;
   communityvisibilitystate: number;
   personaname: string;
@@ -13,8 +13,3 @@ export interface UserSummary {
   personastateflags: number;
 };
 
-export interface UserSummaryResponse {
-  response: {
-    players: UserSummary[];
-  };
-};

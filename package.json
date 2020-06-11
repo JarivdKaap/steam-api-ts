@@ -1,6 +1,6 @@
 {
   "name": "steam-api-ts",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "A Steam API wrapper written in TypeScript",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -35,6 +35,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/JarivdKaap/steam-api-ts"
+  },
+  "bugs": {
+    "url": "https://github.com/JarivdKaap/steam-api-ts/issues"
   },
   "files": [
     "lib/**/*"
