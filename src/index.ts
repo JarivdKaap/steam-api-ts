@@ -17,6 +17,10 @@ import GameDetails from './Structs/GameDetails';
 import GamePlayersResponse from './Structs/Responses/GamePlayersResponse';
 import GameSchema from './Structs/GameSchema';
 import Server from './Structs/Server';
+import GameNewsResponse from './Structs/Responses/GameNewsResponse';
+import NewsItem from './Structs/NewsItem';
+import UserAchievementResponse from './Structs/Responses/UserAchievementsResponse';
+import PlayerBadges from './Structs/PlayerBadges';
 
 const BASE_URL = 'https://api.steampowered.com';
 const STORE_URL = 'https://store.steampowered.com/api';
@@ -63,6 +67,12 @@ export default class SteamAPI {
     )) as GameDetails;
   }
 
+  async getGameNews(appId: number): Promise<NewsItem[]> {
+    return await this.get(`/ISteamNews/GetNewsForApp/v2?appid=${appId}`).then(
+      (json) => (json as GameNewsResponse).appnews.newsitems,
+    );
+  }
+
   async getGamePlayers(appId: number): Promise<number> {
     return await this.get(`/ISteamUserStats/GetNumberOfCurrentPlayers/v1?appid=${appId}`).then(
       (json) => (json as GamePlayersResponse).response.player_count,
@@ -78,6 +88,16 @@ export default class SteamAPI {
       if ((json as any).response.success) return (json as any).response.servers;
       return Promise.reject(new Error((json as any).response.message));
     });
+  }
+
+  async getUserAchievements(userId: string, appId: number): Promise<GameAchievement[]> {
+    return await this.get(`/ISteamUserStats/GetPlayerAchievements/v1?steamid=${userId}&appid=${appId}&l=english`).then(
+      (json) => (json as UserAchievementResponse).playerstats.achievements,
+    );
+  }
+
+  async getUserBadges(userId: string): Promise<PlayerBadges> {
+    return await this.get(`/IPlayerService/GetBadges/v1?steamid=${userId}`).then((json) => (json as any).response);
   }
 
   async getUserGroups(userId: string): Promise<string[]> {
