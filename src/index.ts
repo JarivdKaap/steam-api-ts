@@ -24,6 +24,7 @@ import PlayerBadges from './Structs/PlayerBadges';
 import axios from 'axios';
 import PublishedFileDetails from './Structs/PublishedFileDetails';
 import PublishedFileDetailsResponse from './Structs/Responses/PublishedFileDetailsResponse';
+import * as FormData from "form-data";
 
 const BASE_URL = 'https://api.steampowered.com';
 const STORE_URL = 'https://store.steampowered.com/api';
@@ -150,11 +151,12 @@ export default class SteamAPI {
     const form = new FormData();
     form.append('itemcount', '1');
     form.append('publishedfileids[0]', steamId.toString());
+    
     return (await axios({
       method: 'post',
       data: form,
       url: `${BASE_URL}/ISteamRemoteStorage/GetPublishedFileDetails/v1/?`,
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: form.getHeaders()
     }).then((json) => {
       const publishedFileDetails = (json.data as PublishedFileDetailsResponse).response.publishedfiledetails
       if (publishedFileDetails.length !== 1)
