@@ -21,6 +21,9 @@ import GameNewsResponse from './Structs/Responses/GameNewsResponse';
 import NewsItem from './Structs/NewsItem';
 import UserAchievementResponse from './Structs/Responses/UserAchievementsResponse';
 import PlayerBadges from './Structs/PlayerBadges';
+import axios from 'axios';
+import PublishedFileDetails from './Structs/PublishedFileDetails';
+import PublishedFileDetailsResponse from './Structs/Responses/PublishedFileDetailsResponse';
 
 const BASE_URL = 'https://api.steampowered.com';
 const STORE_URL = 'https://store.steampowered.com/api';
@@ -141,5 +144,23 @@ export default class SteamAPI {
       if (!user || user.length !== 1) Promise.reject(new Error('No player found'));
       return user;
     })) as UserSummary;
+  }
+
+  async getPublishedFileDetails(steamId: number): Promise<PublishedFileDetails> {
+    const form = new FormData();
+    form.append('itemcount', '1');
+    form.append('publishedfileids[0]', steamId.toString());
+    return (await axios({
+      method: 'post',
+      data: form,
+      url: `${BASE_URL}/ISteamRemoteStorage/GetPublishedFileDetails/v1/?`,
+      headers: { "Content-Type": "multipart/form-data" },
+    }).then((json) => {
+      const publishedFileDetails = (json.data as PublishedFileDetailsResponse).response.publishedfiledetails
+      if (publishedFileDetails.length !== 1)
+        throw new Error();
+      
+      return publishedFileDetails[0];
+    }))
   }
 }

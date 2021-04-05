@@ -1,6 +1,6 @@
 {
   "name": "steam-api-ts",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A Steam API wrapper written in TypeScript",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -18,7 +18,8 @@
   "author": "Jari van der Kaap",
   "license": "MIT",
   "dependencies": {
-    "node-fetch": "^2.6.0"
+    "axios": "^0.21.1",
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "@types/jest": "^25.2.3",
